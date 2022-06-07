@@ -6,19 +6,10 @@ var time;
 var url;
 var out = document.getElementById("output");
 var audio = new Audio();
-audio.addEventListener("playing",updateProgressState);
 
-audio.addEventListener('ended', start);
-function updateProgressState() {
-  if (audio.paused) {
-    return;
-  }
-  var progressIndicator = document.querySelector('#progress');
-  if (progressIndicator && audio.duration) {
-    progressIndicator.setAttribute('x', (audio.currentTime * 100 / audio.duration) + '%');
-  }
-  requestAnimationFrame(updateProgressState);
-}
+
+
+
 audio_file.addEventListener("change", function() {
     var file = this.files[0];
 
@@ -73,24 +64,15 @@ audio_file.addEventListener("change", function() {
      var rect;
      positions =[];
      peaks.forEach(function(peak) {
-       rect = document.createElementNS(svgNS, 'rect');
-       rect.setAttributeNS(null, 'x', (100 * peak.position / buffer.length) + '%');
+      
+      
        positions.push(100 * peak.position / buffer.length);
-       console.log(100 * peak.position / buffer.length);
-       rect.setAttributeNS(null, 'y', 0);
-       rect.setAttributeNS(null, 'width', 1);
-       rect.setAttributeNS(null, 'height', '100%');
-       svg.appendChild(rect);
+       
      });
      printPositions(positions,time);
-     rect = document.createElementNS(svgNS, 'rect');
-     rect.setAttributeNS(null, 'id', 'progress');
-     rect.setAttributeNS(null, 'y', 0);
-     rect.setAttributeNS(null, 'width', 1);
-     rect.setAttributeNS(null, 'height', '100%');
-     svg.appendChild(rect);
+     
 
-     svg.innerHTML = svg.innerHTML; // force repaint in some browsers
+     
 
       var top = groups.sort(function(intA, intB) {
         return intB.count - intA.count;
