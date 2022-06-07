@@ -1,14 +1,31 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <style>
+      svg #progress {
+	      fill: red;
+        }
+        #con{
+          width: 50%;
+        }
+      </style>
     <script type="module" src="index.js"></script>
 <title>Page Title</title>
 </head>
 <body>
    
-    
+  
     <input id="a" type="file" accept="audio/*"></input>
     <audio id="audio_player"></audio>
+    <div id="result">
+			<div id="text"></div>
+			<div id="con">
+				<svg width="100%" height="40" id="svg"></svg>
+				<button id="play">Play track</button>
+			</div>
+
+			<audio id="audio"></audio>
+		</div>
     <p>
       <span id="name"></span>
     </p>
@@ -18,5 +35,8 @@
     <p>
       <span id="duration"></span>
     </p>
+    <div id = "time">
+
+    </div>
 </body>
 </html>
