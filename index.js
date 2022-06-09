@@ -48,7 +48,7 @@ audio_file.addEventListener("change", function() {
     });
     offlineContext.oncomplete = function(e) {
       var buffer = e.renderedBuffer;
-     // console.log(buffer.sampleRate);
+     console.log(buffer);
       var peaks = getPeaks([buffer.getChannelData(0), buffer.getChannelData(1)]);
       console.log(peaks);
       //draw(peaks);
@@ -162,11 +162,4 @@ audio_file.addEventListener("change", function() {
     }
   }
   
-  function sleep(milliseconds) {
-    const date = Date.now();
-    let currentDate = null;
-    do {
-      currentDate = Date.now();
-    } while (currentDate - date < milliseconds);
-  }
-
+ 
