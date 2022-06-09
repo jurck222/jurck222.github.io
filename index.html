@@ -2,14 +2,39 @@
 <html>
 <head>
     <style>
-      svg #progress {
-	      fill: red;
-        }
-        #con{
-          width: 50%;
-        }
+      body {
+  margin: 0;
+}
+
+canvas {
+  position: absolute;
+  pointer-events: none;
+}
+
+#audio {
+  width: 100vw;
+}
+
+#center {
+  width: 100px;
+  height: 100px;
+  border-radius: 50px;
+  background-color: yellow;
+  text-align: center;
+  line-height: 100px;
+}
+      
+.slider-value {
+  display: inline-block;
+  width: 25px;
+}
+
+.slider {
+  width: 90vw;
+}
       </style>
     <script type="module" src="index.js"></script>
+    <script type="module" src="test.js"></script>
 <title>Page Title</title>
 </head>
 <body>
@@ -19,12 +44,11 @@
     <audio id="audio_player"></audio>
     <div id="result">
 			<div id="text"></div>
-			<div id="con">
-				<svg width="100%" height="40" id="svg"></svg>
-				<button id="play">Play track</button>
-			</div>
+		
 
-			<audio id="audio"></audio>
+      <canvas id="canvas"></canvas>
+      <audio id="audio" controls></audio>
+      <div class="center" id="center"></div>
 		</div>
     <p>
       <span id="name"></span>
@@ -35,6 +59,14 @@
     <p>
       <span id="duration"></span>
     </p>
+    
+   
+<input type="range" min="0" max="500" value="10" step="1" class="slider f">
+<span class="slider-value f">10</span>
+
+
+<input type="range" min="0" max="255" value="230" step="1" class="slider t">
+<span class="slider-value t">230</span>
     <div id = "time">
 
     </div>

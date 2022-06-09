@@ -1,14 +1,10 @@
 var audio_file = document.getElementById("a");
-var song = document.getElementById("play");
-song.addEventListener('click',start);
 var positions=[];
+var threshold = 230;  //Point where turn the "flower" pink
+var frequencies = 10;
 var time;
 var url;
 var out = document.getElementById("output");
-var audio = new Audio();
-
-
-
 
 audio_file.addEventListener("change", function() {
     var file = this.files[0];
@@ -17,12 +13,14 @@ audio_file.addEventListener("change", function() {
     //audio = new Audio(file.path);
     url = URL.createObjectURL(file);
     audio.src = url;
+    //audio2.src=url;
     name.innerHTML="Title: "+file.name;
     var reader = new FileReader();
     reader.onload = function() {
       console.log(reader.result);
       var OfflineContext = window.OfflineAudioContext || window.webkitOfflineAudioContext;
       var offlineContext = new OfflineContext(2, 30 * 44100, 44100);
+     
       offlineContext.decodeAudioData(reader.result, function(buffer) {
         //audio = new Audio(buffer);
         var min = Math.floor(buffer.duration/60);
@@ -58,10 +56,7 @@ audio_file.addEventListener("change", function() {
       //console.log(buffer.getChannelData(0));
       var groups = getIntervals(peaks);
      // console.log(groups);
-     var svg = document.querySelector('#svg');
-     svg.innerHTML = '';
-     var svgNS = 'http://www.w3.org/2000/svg';
-     var rect;
+     
      positions =[];
      peaks.forEach(function(peak) {
       
@@ -81,12 +76,14 @@ audio_file.addEventListener("change", function() {
       //console.log(top[0].tempo);
     }
   };
+  
     reader.readAsArrayBuffer(file);
+   
 });
   
 
   function getPeaks(data) {
-    var partSize = 22050/5,
+    var partSize = 22050,
         parts = data[0].length / partSize,
         peaks = [];
     console.log(data);
@@ -146,14 +143,7 @@ audio_file.addEventListener("change", function() {
     });
     return groups;
   }
-  function start(){
-    if(audio.paused){
-      audio.play();
-    }
-    else{
-      audio.pause();
-    }
-  }
+ 
   function printPositions(){
     var p;
     var d= document.getElementById("time");
@@ -172,3 +162,11 @@ audio_file.addEventListener("change", function() {
     }
   }
   
+  function sleep(milliseconds) {
+    const date = Date.now();
+    let currentDate = null;
+    do {
+      currentDate = Date.now();
+    } while (currentDate - date < milliseconds);
+  }
+
