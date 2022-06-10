@@ -1,12 +1,55 @@
 var audio_file = document.getElementById("a");
+var glasba = document.getElementById("audio");
 var positions=[];
 var threshold = 230;  //Point where turn the "flower" pink
 var frequencies = 10;
 var time;
 var url;
+var len;
+var timepos;
+var peakos;
+var timing;
+var times = [];
+var times2= [];
 var out = document.getElementById("output");
 
+function updateProgressState() {
+  
+  if (glasba.paused) {
+    return;
+  }
+    if(Math.floor(glasba.currentTime)==timepos){
+      
+      blip();
+      times.shift();
+      timepos=times[0];
+    }
+    else if(Math.floor(glasba.currentTime)>timepos){
+      times.shift();
+      timepos=times[0];
+    }
+
+    console.log(timepos);
+    requestAnimationFrame(updateProgressState);
+    
+}
+
+glasba.addEventListener('play', updateProgressState);
+glasba.addEventListener('playing', updateProgressState);
+glasba.onseeking=function(){
+    if(Math.floor(glasba.currentTime)<timepos){
+      times=[];
+      for(let i = 0; i<times2.length;i++){
+        times.push(times2[i]);
+      }
+      timepos=times[0];
+    }
+   // console.log("test");
+};
 audio_file.addEventListener("change", function() {
+    if(positions.length>0){
+      removePs(positions);
+    }
     var file = this.files[0];
 
     var name = document.getElementById("name");
@@ -50,17 +93,18 @@ audio_file.addEventListener("change", function() {
       var buffer = e.renderedBuffer;
      console.log(buffer);
       var peaks = getPeaks([buffer.getChannelData(0), buffer.getChannelData(1)]);
+      peakos=peaks;
       console.log(peaks);
       //draw(peaks);
       //var allPeaks = getAll([buffer.getChannelData(0), buffer.getChannelData(1)]);
       //console.log(buffer.getChannelData(0));
       var groups = getIntervals(peaks);
      // console.log(groups);
-     
+     len = buffer.length;
      positions =[];
      peaks.forEach(function(peak) {
       
-      
+      console.log("here");
        positions.push(100 * peak.position / buffer.length);
        
      });
@@ -145,12 +189,17 @@ audio_file.addEventListener("change", function() {
   }
  
   function printPositions(){
+    times=[];
     var p;
     var d= document.getElementById("time");
     var timestamp=0;
     for(let i = 0; i<positions.length;i++){
       timestamp=Math.floor(time*(positions[i]/100));
+      times.push(timestamp);
+      times2.push(timestamp);
+      //timestamp=Math.floor(timestamp);
       p=document.createElement("p"); 
+      p.setAttribute("id","p"+i);
       if(timestamp>60){
        p.innerHTML=Math.floor(timestamp/60)+"min and "+Math.floor(timestamp%60)+"s";
       }
@@ -160,6 +209,27 @@ audio_file.addEventListener("change", function() {
       d.appendChild(p);
       
     }
+    timepos=times[0];
+   
+    console.log(times);
   }
+  function removePs(positions){
+    
+    var element;
+    for(var i =0; i<positions.length;i++){
+      element=document.getElementById("p"+i);
+      element.remove();
+    }
+  }
+  var red = document.getElementById("center");
+  async function blip(){
+    red.style.background="red";
+    
+    await sleep(500);
+    red.style.background="white";
+  }
+  function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
   
  
