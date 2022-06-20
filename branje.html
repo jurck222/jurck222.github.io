@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+      body {
+  margin: 0;
+}
+
+canvas {
+  position: absolute;
+  pointer-events: none;
+}
+
+#audio {
+  width: 50%;
+}
+
+#center {
+  width: 100px;
+  height: 100px;
+  border-radius: 50px;
+  background-color: white;
+  text-align: center;
+  line-height: 100px;
+}
+      
+.slider-value {
+  display: inline-block;
+  width: 25px;
+}
+
+.slider {
+  width: 50%;
+}
+      </style>
+    <script type="module" src="branje.js"></script>
+   <!-- <script type="module" src="test.js"></script>-->
+<title>Page Title</title>
+</head>
+<body>
+   
+    <input id="a" type="file" accept="audio/*">   AUDIO</input>
+    <br>
+    <input type="file" name="inputfile"
+            id="inputfile"><br>
+    <audio id="audio" controls></audio>
+    <div class="center" id="center"></div>
+    <div id="output"></div>
+    
+</body>
+</html>
